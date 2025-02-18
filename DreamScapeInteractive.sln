@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DreamScapeInteractive", "DreamScapeInteractive\DreamScapeInteractive.csproj", "{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Debug|ARM64.Build.0 = Debug|ARM64
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Debug|x64.ActiveCfg = Debug|x64
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Debug|x64.Build.0 = Debug|x64
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Debug|x64.Deploy.0 = Debug|x64
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Debug|x86.ActiveCfg = Debug|x86
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Debug|x86.Build.0 = Debug|x86
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Debug|x86.Deploy.0 = Debug|x86
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Release|ARM64.ActiveCfg = Release|ARM64
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Release|ARM64.Build.0 = Release|ARM64
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Release|ARM64.Deploy.0 = Release|ARM64
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Release|x64.ActiveCfg = Release|x64
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Release|x64.Build.0 = Release|x64
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Release|x64.Deploy.0 = Release|x64
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Release|x86.ActiveCfg = Release|x86
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Release|x86.Build.0 = Release|x86
+		{DBD56955-1125-46B8-B4B0-AAE9F95CD48B}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E2C55A2-1A46-4B2A-9D37-6AAA4A06CE42}
+	EndGlobalSection
+EndGlobal
