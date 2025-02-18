@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -19,14 +20,25 @@ using Windows.Foundation.Collections;
 namespace DreamScapeInteractive
 {
     /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainWindow : Window
+    public sealed partial class CatalogusPage : Page
     {
-        public MainWindow()
+        private readonly AppDbContext _context = new AppDbContext();
+
+        public CatalogusPage()
         {
             this.InitializeComponent();
-            MainFrame.Navigate(typeof(CatalogusPage));
+            LoadItems();
+        }
+
+        public void LoadItems()
+        {
+           var items = _context.Items
+                .Include(i => i.MagicProperty)
+                .ToList();
+
+            ItemCatalogusGrid.ItemsSource = items;
         }
     }
 }
