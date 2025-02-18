@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace DreamScapeInteractive.Data.Classes
 {
-    internal class UserItem
+    public class UserItem
     {
-        public ObservableCollection<Item> items { get; set; } = new ObservableCollection<Item>();
+        public int  UserItemId { get; set; }
+        public int UserId { get; set; }
+        public int ItemId { get; set; }
+        public int Quantity { get; set; }
+
+        public User User { get; set; }
+        public Item Item { get; set; }
     }
 }
