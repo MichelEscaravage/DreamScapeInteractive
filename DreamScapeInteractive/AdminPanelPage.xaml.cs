@@ -1,3 +1,4 @@
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.VoiceCommands;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -19,14 +21,23 @@ using Windows.Foundation.Collections;
 namespace DreamScapeInteractive
 {
     /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainWindow : Window
+    public sealed partial class AdminPanelPage : Page
     {
-        public MainWindow()
+        public AdminPanelPage()
         {
             this.InitializeComponent();
-            MainFrame.Navigate(typeof(AdminPanelPage));
+        }
+
+        private void CatalogusRouteButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(CatalogusPage));
+        }
+
+        private void RegisterRouteButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
