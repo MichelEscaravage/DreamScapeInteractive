@@ -26,9 +26,7 @@ namespace DreamScapeInteractive
         public MainWindow()
         {
             this.InitializeComponent();
+            MainFrame.Navigate(typeof(CatalogusPage));
         }
-
-        private void myButton_Click(object sender, RoutedEventArgs e)
-        {        }
     }
 }
