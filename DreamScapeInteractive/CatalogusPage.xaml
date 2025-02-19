@@ -9,25 +9,27 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Background="#ccccb6" Padding="20">
+    <Grid Background="#3b2f2f" Padding="20">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Background="DarkRed" CornerRadius="20">
+        <Grid Background="#8b5a2b" CornerRadius="20">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Background="#5a0000" PlaceholderText="Search..." x:Name="SearchItemsBox" TextChanged="SearchItemsBox_TextChanged"/>
-            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="CATALOGUS" FontSize="20"/>
+            <Button  Margin="10,0,0,0" CornerRadius="10,0,0,10" x:Name="BackButton" Grid.Column="0" Content="Back" Click="BackButton_Click" Background="#704214" BorderBrush="Gold"/>
+            <TextBox MinWidth="150"  Background="#5a0000" Grid.Column="2" PlaceholderText="Search..." x:Name="SearchItemsBox" TextChanged="SearchItemsBox_TextChanged" HorizontalAlignment="Right" />
+            <TextBlock Foreground="Gold" Grid.Column="1" HorizontalAlignment="Center" Text="CATALOGUS" FontSize="20"/>
 
-            <Button x:Name="FilterButton" Grid.Column="2" HorizontalAlignment="Right" Width="50" Height="50" Padding="0" Background="Transparent">
+            <Button x:Name="FilterButton" Grid.Column="3" HorizontalAlignment="Right" Width="50" Height="50" Padding="0" Background="Transparent">
                 <Image Source="Assets/sort.jpg" Stretch="Uniform" Width="40" Height="40" Margin="5"/>
                 <Button.Flyout>
                     <Flyout>
@@ -92,7 +94,11 @@
                 VerticalContentAlignment="Center">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="localData:Item">
-                        <Border Width="300" Margin="10" Padding="15" Background="#a55c4d21" BorderBrush="DarkGray" BorderThickness="1" CornerRadius="8">
+                        <Border Width="300" Margin="10" 
+                                Padding="15"  
+                                Background="#704214"
+                                BorderBrush="Gold"
+                                BorderThickness="3" CornerRadius="8">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
