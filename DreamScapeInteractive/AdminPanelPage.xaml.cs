@@ -14,6 +14,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.VoiceCommands;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using DreamScapeInteractive.Dialogues;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -35,9 +36,14 @@ namespace DreamScapeInteractive
             this.Frame.Navigate(typeof(CatalogusPage));
         }
 
-        private void RegisterRouteButton_Click(object sender, RoutedEventArgs e)
+        private async void RegisterRouteButton_Click(object sender, RoutedEventArgs e)
         {
+            RegisterDialogue contentDialog = new RegisterDialogue()
+            {
+                XamlRoot = this.XamlRoot
+            };
 
+            await contentDialog.ShowAsync();
         }
     }
 }
