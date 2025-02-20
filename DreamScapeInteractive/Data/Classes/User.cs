@@ -10,6 +10,7 @@ namespace DreamScapeInteractive.Data.Classes
     public class User
     {
         public int Id { get; set; }
+        public static User LoggedInUser { get; set; }
         public string EmailAddress { get; set; }
         public string Username { get; set; }
         public string HashedPassword { get; set; }
