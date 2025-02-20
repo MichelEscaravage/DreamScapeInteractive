@@ -47,7 +47,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                
+
                 <!-- Username TextBox -->
                 <TextBox
                 x:Name="UsernameTextBox"
@@ -74,20 +74,37 @@
                 CornerRadius="10"
                 Margin="10"/>
 
-                <!-- Login Button -->
-                <Button
-                x:Name="LoginButton"
-                Click="LoginButton_Click"
-                HorizontalAlignment="Center"
-                Content="🔑 Login"
-                Grid.Row="3"
-                Background="#8b5a2b"
-                Foreground="Gold"
-                BorderBrush="Gold"
-                FontSize="18"
-                FontFamily="Garamond"
-                CornerRadius="10"
-                Margin="10"/>
+                <StackPanel Orientation="Horizontal"  Grid.Row="3">
+                    <!-- Login Button -->
+                    <Button
+                        x:Name="LoginButton"
+                        Click="LoginButton_Click"
+                        HorizontalAlignment="Center"
+                        Content="🔑 Login"
+                        Background="#8b5a2b"
+                        Foreground="Gold"
+                        BorderBrush="Gold"
+                        FontSize="18"
+                        FontFamily="Garamond"
+                        CornerRadius="10"
+                        Margin="10"
+                    />
+
+                    <Button
+                        x:Name="RegisterButton"
+                        Click="RegisterButton_Click"
+                        HorizontalAlignment="Center"
+                        Content="Register a new account!"
+                        Background="#8b5a2b"
+                        Foreground="Gold"
+                        BorderBrush="Gold"
+                        FontSize="18"
+                        FontFamily="Garamond"
+                        CornerRadius="10"
+                        Margin="10"
+                    />
+
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>

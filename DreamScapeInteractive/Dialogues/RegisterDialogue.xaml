@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-       
+
         </Grid.RowDefinitions>
 
         <TextBlock
@@ -35,7 +35,7 @@
             Margin="0,0,0,20"
         />
 
-        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250" Spacing="10">
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="290" Spacing="10">
 
             <!-- Username -->
             <TextBlock Text="Username:" 
@@ -87,6 +87,42 @@
                 Width="250"
                 HorizontalAlignment="Center"/>
 
+            <StackPanel Orientation="Vertical">
+                <!-- Password Box -->
+                <PasswordBox
+                    x:Name="PasswordTextBox"
+                    PlaceholderText="Enter your password..."
+                    Background="#704214"
+                    Foreground="White"
+                    BorderBrush="Gold"
+                    FontSize="15"
+                    FontFamily="Garamond"
+                    CornerRadius="10"
+                    Margin="10"
+                    Visibility="Collapsed"
+                    PasswordChanged="PasswordTextBox_PasswordChanged"
+                    
+                />
+
+                <StackPanel Orientation="Vertical">
+                    <TextBlock x:Name="confirmPasswordLabel" Grid.Row="0" FontSize="12" Foreground="#e41828" FontFamily="Consolas"/>
+                    <!-- Password Box -->
+                    <PasswordBox
+                        x:Name="ConfirmPasswordTextBox"
+                        PlaceholderText="Confirm your password..."
+                        Background="#704214"
+                        Foreground="White"
+                        BorderBrush="Gold"
+                        FontSize="15"
+                        FontFamily="Garamond"
+                        CornerRadius="10"
+                        Margin="10"
+                        Visibility="Collapsed"
+                        PasswordChanged="ConfirmPasswordTextBox_PasswordChanged"
+                    />
+                </StackPanel>
+                
+            </StackPanel>
             <ToggleSwitch x:Name="IsAdminSwitch"
               Toggled="IsAdminSwitch_Toggled"
               OnContent="Admin" 

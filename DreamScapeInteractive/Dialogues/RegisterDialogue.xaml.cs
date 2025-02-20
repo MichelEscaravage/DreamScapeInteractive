@@ -1,4 +1,4 @@
-    using DreamScapeInteractive.Data.Classes;
+using DreamScapeInteractive.Data.Classes;
 using DreamScapeInteractive.Utility;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -25,23 +25,39 @@ namespace DreamScapeInteractive.Dialogues
     public sealed partial class RegisterDialogue : ContentDialog
     {
         private readonly AppDbContext _context = new AppDbContext();
+        private List<Control> inputControls = new List<Control>();
         private List<string> _usernames;
         private bool _isAdmin = false;
         private bool _isPasswordGenerated = false;
         private string _password;
-        
+        private string _passwordChecker;
+        private string _confirmPassword;
+
         public RegisterDialogue()
         {
             this.InitializeComponent();
-            User.LoggedInUser = _context.Users.FirstOrDefault(u => u.IsAdmin);
-            if (User.LoggedInUser.IsAdmin == true)
+
+
+            if (User.LoggedInUser == null!)
+            {
+                IsAdminSwitch.Visibility = Visibility.Collapsed;
+                GeneratePassword.Visibility = Visibility.Collapsed;
+                PasswordTextBox.Visibility = Visibility.Visible;
+                ConfirmPasswordTextBox.Visibility = Visibility.Visible;
+
+            }
+            else if (!User.LoggedInUser.IsAdmin)
+            {
+                IsAdminSwitch.Visibility = Visibility.Collapsed;
+                GeneratePassword.Visibility = Visibility.Collapsed;
+                PasswordTextBox.Visibility = Visibility.Visible;
+
+            }
+            else if (User.LoggedInUser.IsAdmin)
             {
                 IsAdminSwitch.Visibility = Visibility.Visible;
             }
-            else
-            {
-                IsAdminSwitch.Visibility = Visibility.Collapsed;
-            }
+
 
             _usernames = _context.Users.Select(u => u.Username).ToList();
         }
@@ -82,17 +98,56 @@ namespace DreamScapeInteractive.Dialogues
             return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
         }
 
+
+        private void PasswordTextBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            _passwordChecker = PasswordTextBox.Password;
+        }
+
+        private void ConfirmPasswordTextBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            _confirmPassword = ConfirmPasswordTextBox.Password;
+            PasswordValidator.ValidatePasswords(_passwordChecker, _confirmPassword, PasswordTextBox, ConfirmPasswordTextBox, confirmPasswordLabel);
+
+        }
+
+        private bool IsPasswordSafe(string Password)
+        {
+            return Password.Count() > 8;
+        }
+
         private async void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            List<Control> inputControls = new List<Control>()
+            inputControls.AddRange(new List<Control>
             {
                 UserNameTextbox,
-                EmailAdressBox
-            };
+                EmailAdressBox,
+            });
+
+            if (User.LoggedInUser == null || !User.LoggedInUser.IsAdmin)
+            {
+                inputControls.Add(PasswordTextBox);
+            }
 
             bool hasEmptyFields = FormChecker.ValidateControls(inputControls);
             bool usernameAlreadyExists = _context.Users.Any(u => u.Username == UserNameTextbox.Text);
+            bool emailAlreadyExists = _context.Users.Any(u => u.EmailAddress == EmailAdressBox.Text);
             bool isEmailvalid = IsValidEmail(EmailAdressBox.Text);
+
+            if (!IsPasswordSafe(PasswordTextBox.Password))
+            {
+                UserNameTextbox.Text = string.Empty;
+                EmailAdressBox.Text = string.Empty;
+                PasswordTextBox.Password = string.Empty;
+                ConfirmPasswordTextBox.Password = string.Empty;
+
+                
+                PasswordTextBox.PlaceholderText= "Password must have atleast 8 characters!";
+                PasswordTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
+
+                return;
+            }
+
 
             if (hasEmptyFields)
             {
@@ -103,7 +158,22 @@ namespace DreamScapeInteractive.Dialogues
             {
                 UserNameTextbox.Text = string.Empty;
                 EmailAdressBox.Text = string.Empty;
+                PasswordTextBox.Password = string.Empty;
+                ConfirmPasswordTextBox.Password = string.Empty;
+
                 UserNameTextbox.PlaceholderText = "Username already in use!";
+                UserNameTextbox.PlaceholderForeground = new SolidColorBrush(Colors.Red);
+                return;
+            }
+
+            if (emailAlreadyExists)
+            {
+                UserNameTextbox.Text = string.Empty;
+                EmailAdressBox.Text = string.Empty;
+                PasswordTextBox.Password = string.Empty;
+                ConfirmPasswordTextBox.Password = string.Empty;
+
+                EmailAdressBox.PlaceholderText = "Email already in use!";
                 UserNameTextbox.PlaceholderForeground = new SolidColorBrush(Colors.Red);
                 return;
             }
@@ -112,16 +182,29 @@ namespace DreamScapeInteractive.Dialogues
             {
                 UserNameTextbox.Text = string.Empty;
                 EmailAdressBox.Text = string.Empty;
+                PasswordTextBox.Password = string.Empty;
+                ConfirmPasswordTextBox.Password = string.Empty;
+
+                EmailAdressBox.PlaceholderForeground = new SolidColorBrush(Colors.Red);
                 EmailAdressBox.BorderBrush = new SolidColorBrush(Colors.Red);
                 EmailAdressBox.PlaceholderText = "Please fill in a valid email";
                 return;
             }
 
-            if (!_isPasswordGenerated)
+            if (!_isPasswordGenerated && (User.LoggedInUser == null || !User.LoggedInUser.IsAdmin))
+            {
+                _password = PasswordTextBox.Password;
+            }
+            else if (!_isPasswordGenerated && User.LoggedInUser.IsAdmin == true)
             {
                 ErrorBlock.Text = "Please generate a password!";
                 ErrorBlock.Visibility = Visibility.Visible;
                 GeneratePassword.BorderBrush = new SolidColorBrush(Colors.Red);
+                return;
+            }
+
+            if (!PasswordValidator.ValidatePasswords(_passwordChecker, _confirmPassword, PasswordTextBox, ConfirmPasswordTextBox, confirmPasswordLabel))
+            {
                 return;
             }
 
@@ -136,25 +219,27 @@ namespace DreamScapeInteractive.Dialogues
             _context.Add(user);
             await _context.SaveChangesAsync();
 
+            if (User.LoggedInUser != null)
+            {
+                //TODO CHANGE EMAIL ADDRESS TO RECIPIENT ADDRESS
+                MailSender.SendEmail("michelescaravage@hotmail.com  ", "Your password!",
 
-            //TODO CHANGE EMAIL ADDRESS TO RECIPIENT ADDRESS
-            MailSender.SendEmail("michelescaravage@hotmail.com  ", "Your password!",
-
-                $"Here are your login credentials!\n\n" +
-                $"Your username: {UserNameTextbox.Text}\n" +
-                $"And your first-time use password: {_password}\n\n" +
-                $"After logging in for the first time you will be asked to " +
-                $"change your password." +
-                $"\n" +
-                $"\n" +
-                $"Cheers!" +
-                $"\n\n" +
-                $"The DreamScapeInteractive team"
-            );
+                    $"Here are your login credentials!\n\n" +
+                    $"Your username: {UserNameTextbox.Text}\n" +
+                    $"And your first-time use password: {_password}\n\n" +
+                    $"After logging in for the first time you will be asked to " +
+                    $"change your password." +
+                    $"\n" +
+                    $"\n" +
+                    $"Cheers!" +
+                    $"\n\n" +
+                    $"The DreamScapeInteractive team"
+                );
+            }           
 
             this.Hide();
         }
-  //--------------------------------------------------------------------------
+        //--------------------------------------------------------------------------
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             _context.Dispose();
