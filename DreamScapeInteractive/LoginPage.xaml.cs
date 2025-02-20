@@ -147,11 +147,25 @@ namespace DreamScapeInteractive
             if (selectedUser.IsAdmin == true)
             {
                 this.Frame.Navigate(typeof(AdminPanelPage));
+                _context.Dispose();
+
             }
             else if (selectedUser.IsAdmin == false)
             {
                 this.Frame.Navigate(typeof(CatalogusPage));
+                _context.Dispose();
             }
+        }
+
+        private async void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            RegisterDialogue contentDialog = new RegisterDialogue()
+            {
+                XamlRoot = this.XamlRoot
+            };
+
+            await contentDialog.ShowAsync();
+            _context.Dispose();
         }
     }
 }
