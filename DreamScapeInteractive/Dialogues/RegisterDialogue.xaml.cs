@@ -1,6 +1,5 @@
-using DreamScapeInteractive.Data.Classes;
+    using DreamScapeInteractive.Data.Classes;
 using DreamScapeInteractive.Utility;
-using HousepointsSystem.Utility;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
