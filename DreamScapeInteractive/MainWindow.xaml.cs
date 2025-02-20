@@ -26,7 +26,7 @@ namespace DreamScapeInteractive
         public MainWindow()
         {
             this.InitializeComponent();
-            MainFrame.Navigate(typeof(AdminPanelPage));
+            MainFrame.Navigate(typeof(LoginPage));
         }
     }
 }

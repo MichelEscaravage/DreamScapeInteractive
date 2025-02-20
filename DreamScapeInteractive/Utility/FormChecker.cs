@@ -6,7 +6,7 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
-namespace HousepointsSystem.Utility
+namespace DreamScapeInteractive.Utility
 {
     public static class FormChecker
     {
