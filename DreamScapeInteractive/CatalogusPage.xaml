@@ -20,12 +20,16 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button  Margin="10,0,0,0" CornerRadius="10,0,0,10" x:Name="BackButton" Grid.Column="0" Content="Back" Click="BackButton_Click" Background="#704214" BorderBrush="Gold"/>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
+                <Button  Margin="10,0,0,0" CornerRadius="10,0,0,10" x:Name="BackButton"  Content="Back" Click="BackButton_Click" Background="#704214" BorderBrush="Gold"/>
+                <Button x:Name="AddItemButton" Click="AddItemButton_Click"  Margin="10,0,0,0" CornerRadius="0,10,10,0" Grid.Column="1" Content="Add Item" Background="#704214" BorderBrush="Gold" />
+
+            </StackPanel>
             <TextBox MinWidth="150"  Background="#5a0000" Grid.Column="2" PlaceholderText="Search..." x:Name="SearchItemsBox" TextChanged="SearchItemsBox_TextChanged" HorizontalAlignment="Right" />
             <TextBlock Foreground="Gold" Grid.Column="1" HorizontalAlignment="Center" Text="CATALOGUS" FontSize="20"/>
 
@@ -94,12 +98,12 @@
                 VerticalContentAlignment="Center">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="localData:Item">
-                        <Border Width="300" Margin="10" 
+                        <Border MinWidth="300" Margin="10" 
                                 Padding="15"  
                                 Background="#704214"
                                 BorderBrush="Gold"
                                 BorderThickness="3" CornerRadius="8">
-                            <Grid>
+                            <Grid x:Name="ItemCatalogusGrid2">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>
@@ -144,6 +148,32 @@
                                         <TextBlock Text="Durability:" FontSize="14" Foreground="White"/>
                                         <TextBlock x:Name="ItemDurabilityBlock" Text="{x:Bind Durability}" FontSize="16" Foreground="LightGoldenrodYellow"/>
                                     </StackPanel>
+                                    
+                                    <Button
+                                        x:Name="EditButton"
+                                        Click="EditButton_Click"
+                                        Content="Edit"
+                                        VerticalAlignment="Bottom"
+                                        Background="#701714" 
+                                        BorderBrush="Gold"
+                                        FontSize="12"
+                                        CommandParameter="{Binding}"
+                                        Loaded="EditButton_Loaded"
+                                    />
+
+
+                                    <Button
+                                        x:Name="DeleteButton"
+                                        Click="DeleteButton_Click"
+                                        VerticalAlignment="Bottom"
+                                        Content="Delete"
+                                        Background="#701714" 
+                                        BorderBrush="Gold"
+                                        FontSize="12"
+                                        Loaded="DeleteButton_Loaded"
+                                        CommandParameter="{Binding}"
+                                    />
+
                                 </StackPanel>
                             </Grid>
                         </Border>
