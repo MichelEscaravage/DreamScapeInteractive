@@ -134,21 +134,23 @@ namespace DreamScapeInteractive.Dialogues
             bool emailAlreadyExists = _context.Users.Any(u => u.EmailAddress == EmailAdressBox.Text);
             bool isEmailvalid = IsValidEmail(EmailAdressBox.Text);
 
-            if (!IsPasswordSafe(PasswordTextBox.Password))
+            if (PasswordTextBox.Visibility == Visibility.Visible)
             {
-                UserNameTextbox.Text = string.Empty;
-                EmailAdressBox.Text = string.Empty;
-                PasswordTextBox.Password = string.Empty;
-                ConfirmPasswordTextBox.Password = string.Empty;
+                if (!IsPasswordSafe(PasswordTextBox.Password))
+                {
+                    UserNameTextbox.Text = string.Empty;
+                    EmailAdressBox.Text = string.Empty;
+                    PasswordTextBox.Password = string.Empty;
+                    ConfirmPasswordTextBox.Password = string.Empty;
 
-                
-                PasswordTextBox.PlaceholderText= "Password must have atleast 8 characters!";
-                PasswordTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
 
-                return;
+                    PasswordTextBox.PlaceholderText = "Password must have atleast 8 characters!";
+                    PasswordTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
+
+                    return;
+                }
             }
-
-
+            
             if (hasEmptyFields)
             {
                 return;

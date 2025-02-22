@@ -13,9 +13,13 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Dialogues\EditItemDialogue.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="AdminPanelPage.xaml" />
     <None Remove="CatalogusPage.xaml" />
     <None Remove="Dialogues\ChangePasswordDialogue.xaml" />
+    <None Remove="Dialogues\EditOrAddItemDialogue.xaml" />
     <None Remove="Dialogues\RegisterDialogue.xaml" />
     <None Remove="LoginPage.xaml" />
   </ItemGroup>
@@ -50,6 +54,11 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dialogues\EditOrAddItemDialogue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Dialogues\ChangePasswordDialogue.xaml">

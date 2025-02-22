@@ -1,4 +1,5 @@
 using DreamScapeInteractive.Data.Classes;
+using DreamScapeInteractive.Dialogues;
 using DreamScapeInteractive.Utility;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
@@ -33,7 +34,12 @@ namespace DreamScapeInteractive
         {
             this.InitializeComponent();
             LoadItems();
+            if (!User.LoggedInUser.IsAdmin)
+            {
+                AddItemButton.Visibility = Visibility.Collapsed;
+            }
         }
+
         private void ItemCatalogusGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             ItemCatalogusScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
@@ -45,17 +51,17 @@ namespace DreamScapeInteractive
         }
         public void LoadItems()
         {
-           var items = _context.Items
-                .Include(i => i.MagicProperty)
-                .Include(i => i.Type)
-                .ToList();
+            var items = _context.Items
+                 .Include(i => i.MagicProperty)
+                 .Include(i => i.Type)
+                 .ToList();
 
             var magicProperties = items
                 .Where(i => i.MagicProperty != null)
                 .Select(i => i.MagicProperty)
                 .Distinct()
                 .ToList();
-                
+
             ItemCatalogusGrid.ItemsSource = items;
             FilterBox.ItemsSource = magicProperties;
             FilterBox.DisplayMemberPath = "Name";
@@ -72,8 +78,8 @@ namespace DreamScapeInteractive
 
             if (!string.IsNullOrEmpty(filters.ItemNameOrType))
             {
-                filteredItems = filteredItems.Where(i => 
-                i.Name.Contains(filters.ItemNameOrType) || 
+                filteredItems = filteredItems.Where(i =>
+                i.Name.Contains(filters.ItemNameOrType) ||
                 i.Type.Name.Contains(filters.ItemNameOrType));
             }
 
@@ -119,7 +125,7 @@ namespace DreamScapeInteractive
             }
             else
             {
-                _currentFilters.MagicProperty = null; 
+                _currentFilters.MagicProperty = null;
             }
             LoadFilteredItems(_currentFilters);
         }
@@ -163,11 +169,82 @@ namespace DreamScapeInteractive
             LoadItems();
         }
 
+        private async void AddItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            EditOrAddItemDialogue contentDialog = new EditOrAddItemDialogue(_context, null)
+            {
+                XamlRoot = this.XamlRoot
+            };
+
+            await contentDialog.ShowAsync();
+            LoadItems();
+        }
+
+        private async void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            Item selectedItem = (sender as Button).CommandParameter as Item;
+
+            EditOrAddItemDialogue contentDialog = new EditOrAddItemDialogue(_context, selectedItem)
+            {
+                XamlRoot = this.XamlRoot
+            };
+
+            await contentDialog.ShowAsync();
+            LoadItems();
+
+        }
+
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            Item selectedItem = (sender as Button).CommandParameter as Item;
+            if (selectedItem != null)
+            {
+                var confirmDialog = new ContentDialog()
+                {
+                    Title = $"Delete {selectedItem.Name}",
+                    Content = $"Are you sure you want to delete {selectedItem.Name}",
+                    PrimaryButtonText = "Delete",
+                    CloseButtonText = "Cancel",
+                    DefaultButton = ContentDialogButton.Close,
+                    XamlRoot = this.XamlRoot
+                };
+
+                var result = await confirmDialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    var gameToDelete = await _context.Items.FindAsync(selectedItem.Id);
+
+                    _context.Items.Remove(gameToDelete);
+                    await _context.SaveChangesAsync();
+
+                    LoadItems();
+                }
+            }
+        }
+
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.Frame.CanGoBack)
             {
                 this.Frame.GoBack();
+            }
+        }
+
+        private void DeleteButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var deleteButton = (Button)sender;
+            if (!User.LoggedInUser.IsAdmin)
+            {
+                deleteButton.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void EditButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var editButton = (Button)sender;
+            if (!User.LoggedInUser.IsAdmin)
+            {
+                editButton.Visibility = Visibility.Collapsed;
             }
         }
     }
