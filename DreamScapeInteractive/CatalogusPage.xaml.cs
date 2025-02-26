@@ -226,6 +226,10 @@ namespace DreamScapeInteractive
         {
             if (this.Frame.CanGoBack)
             {
+                if (!User.LoggedInUser.IsAdmin)
+                {
+                    User.LoggedInUser = null;
+                }
                 this.Frame.GoBack();
             }
         }
@@ -245,6 +249,14 @@ namespace DreamScapeInteractive
             if (!User.LoggedInUser.IsAdmin)
             {
                 editButton.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void BackButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!User.LoggedInUser.IsAdmin)
+            {
+                BackButton.Content = "Logout";
             }
         }
     }

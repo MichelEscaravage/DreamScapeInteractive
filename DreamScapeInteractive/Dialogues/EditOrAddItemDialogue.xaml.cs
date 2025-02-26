@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -94,22 +95,63 @@ namespace DreamScapeInteractive.Dialogues
 
         }
 
-        private bool IsItemTitleValid(string gameName, string gameDescription)
+        private bool IsItemTitleValid(string? title, string? description, bool isEditing)
         {
             var regex = new System.Text.RegularExpressions.Regex("^[a-zA-Z0-9 ]+$");
 
-            if (regex.IsMatch(gameName) && regex.IsMatch(gameDescription))
+            if (isEditing)
             {
-                return true;
+                return !string.IsNullOrWhiteSpace(description) && regex.IsMatch(description);
             }
-            return false;
-
+            else
+            {
+                return !string.IsNullOrWhiteSpace(title) && regex.IsMatch(title) &&
+                       !string.IsNullOrWhiteSpace(description) && regex.IsMatch(description);
+            }
         }
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (_selectedItem != null)
             {
+                var inputcontrols = new List<Control>
+                {
+                    DescriptionBlock,
+                    RaritySlider,
+                    PowerSlider,
+                    SpeedSlider,
+                    DurabilitySlider
+                };
+
+                bool hasEmptyFields = FormChecker.ValidateControls(inputcontrols);
+
+                if (hasEmptyFields)
+                {
+
+                    var Labels = new List<TextBlock>
+                    {
+                        RarityLabel,
+                        PowerLabel,
+                        SpeedLabel,
+                        DurabilityLabel,
+                    };
+
+                    foreach (var label in Labels)
+                    {
+                        label.Foreground = new SolidColorBrush(Colors.Red);
+                        label.Text += " Required to choose a value!";
+                    }
+                    return;
+                }
+
+                if (!IsItemTitleValid(null, DescriptionBlock.Text, true))
+                {
+                    DescriptionBlock.Foreground = new SolidColorBrush(Colors.Red);
+                    DescriptionBlock.Text = "Invalid description!";
+                    return;
+                }
+
+
                 _selectedItem.Description = DescriptionBlock.Text;
 
                 if (MagicPropertyListBox.SelectedItem is Magic_Property selectedProperty)
@@ -130,6 +172,7 @@ namespace DreamScapeInteractive.Dialogues
                     TitleBox,
                     DescriptionBox,
                     TypesListBox,
+                    MagicPropertyListBox,
                     RaritySlider,
                     PowerSlider,
                     SpeedSlider,
@@ -140,8 +183,6 @@ namespace DreamScapeInteractive.Dialogues
 
                 if (hasEmptyFields)
                 {
-
-
                     var Labels = new List<TextBlock>
                     {
                         RarityLabel,
@@ -158,7 +199,7 @@ namespace DreamScapeInteractive.Dialogues
                     return;
                 }
 
-                if (!IsItemTitleValid(TitleBox.Text, DescriptionBox.Text))
+                if (!IsItemTitleValid(TitleBox.Text, DescriptionBox.Text, false))
                 {
                     TitleBox.Text = string.Empty;
                     TitleBox.Foreground = new SolidColorBrush(Colors.Red);

@@ -26,7 +26,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
-                <Button  Margin="10,0,0,0" CornerRadius="10,0,0,10" x:Name="BackButton"  Content="Back" Click="BackButton_Click" Background="#704214" BorderBrush="Gold"/>
+                <Button  Margin="10,0,0,0" CornerRadius="10,0,0,10" x:Name="BackButton"  Content="Back" Click="BackButton_Click" Loaded="BackButton_Loaded" Background="#704214" BorderBrush="Gold"/>
                 <Button x:Name="AddItemButton" Click="AddItemButton_Click"  Margin="10,0,0,0" CornerRadius="0,10,10,0" Grid.Column="1" Content="Add Item" Background="#704214" BorderBrush="Gold" />
 
             </StackPanel>

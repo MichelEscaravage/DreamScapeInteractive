@@ -113,7 +113,7 @@ namespace DreamScapeInteractive.Dialogues
 
         private bool IsPasswordSafe(string Password)
         {
-            return Password.Count() > 8;
+            return Password.Count() >= 8;
         }
 
         private async void RegisterButton_Click(object sender, RoutedEventArgs e)
@@ -204,10 +204,13 @@ namespace DreamScapeInteractive.Dialogues
                 GeneratePassword.BorderBrush = new SolidColorBrush(Colors.Red);
                 return;
             }
-
-            if (!PasswordValidator.ValidatePasswords(_passwordChecker, _confirmPassword, PasswordTextBox, ConfirmPasswordTextBox, confirmPasswordLabel))
+            
+            if (User.LoggedInUser != null)
             {
-                return;
+                if (!PasswordValidator.ValidatePasswords(_passwordChecker, _confirmPassword, PasswordTextBox, ConfirmPasswordTextBox, confirmPasswordLabel))
+                {
+                    return;
+                }
             }
 
             User user = new User()

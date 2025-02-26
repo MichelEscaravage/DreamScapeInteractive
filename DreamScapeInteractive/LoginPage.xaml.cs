@@ -165,7 +165,6 @@ namespace DreamScapeInteractive
             };
 
             await contentDialog.ShowAsync();
-            _context.Dispose();
         }
     }
 }
