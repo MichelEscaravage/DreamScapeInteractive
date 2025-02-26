@@ -32,6 +32,8 @@
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center"
                        Margin="0,15,0,0"/>
+            <Button  Margin="10,0,0,0" CornerRadius="10,0,0,10" x:Name="BackButton"  Content="Logout" Click="BackButton_Click" Background="#704214" Foreground="White" BorderBrush="Gold"/>
+
         </Grid>
 
         <!-- Buttons -->

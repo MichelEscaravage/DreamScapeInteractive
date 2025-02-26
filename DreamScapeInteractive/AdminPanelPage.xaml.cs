@@ -15,6 +15,7 @@ using Windows.ApplicationModel.VoiceCommands;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using DreamScapeInteractive.Dialogues;
+using DreamScapeInteractive.Data.Classes;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -44,6 +45,15 @@ namespace DreamScapeInteractive
             };
 
             await contentDialog.ShowAsync();
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Frame.CanGoBack)
+            {
+                User.LoggedInUser = null;
+                Frame.GoBack();
+            }
         }
     }
 }
